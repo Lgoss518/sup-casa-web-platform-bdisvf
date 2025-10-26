@@ -1,0 +1,122 @@
+
+import { Document } from '@/types/Document';
+
+export const mockDocuments: Document[] = [
+  {
+    id: '1',
+    title: 'Introduction to Algorithms',
+    subject: 'Computer Science',
+    level: 'S3',
+    type: 'course',
+    fileUri: 'https://example.com/algo-intro.pdf',
+    fileName: 'algo-intro.pdf',
+    fileType: 'application/pdf',
+    uploadDate: '2024-01-15',
+    description: 'Comprehensive introduction to fundamental algorithms and data structures',
+  },
+  {
+    id: '2',
+    title: 'Linear Algebra Exercises',
+    subject: 'Mathematics',
+    level: 'S2',
+    type: 'practical',
+    fileUri: 'https://example.com/linear-algebra.pdf',
+    fileName: 'linear-algebra.pdf',
+    fileType: 'application/pdf',
+    uploadDate: '2024-01-20',
+    description: 'Practice problems for linear algebra with solutions',
+  },
+  {
+    id: '3',
+    title: 'Physics Final Exam 2023',
+    subject: 'Physics',
+    level: 'S4',
+    type: 'exam',
+    fileUri: 'https://example.com/physics-exam.pdf',
+    fileName: 'physics-exam.pdf',
+    fileType: 'application/pdf',
+    uploadDate: '2024-02-01',
+    description: 'Final exam from 2023 with correction',
+  },
+  {
+    id: '4',
+    title: 'Database Management Systems',
+    subject: 'Computer Science',
+    level: 'S5',
+    type: 'course',
+    fileUri: 'https://example.com/dbms.pdf',
+    fileName: 'dbms.pdf',
+    fileType: 'application/pdf',
+    uploadDate: '2024-02-10',
+    description: 'Complete course on relational databases and SQL',
+  },
+  {
+    id: '5',
+    title: 'Organic Chemistry Lab',
+    subject: 'Chemistry',
+    level: 'S3',
+    type: 'practical',
+    fileUri: 'https://example.com/chem-lab.pdf',
+    fileName: 'chem-lab.pdf',
+    fileType: 'application/pdf',
+    uploadDate: '2024-02-15',
+    description: 'Laboratory exercises for organic chemistry',
+  },
+  {
+    id: '6',
+    title: 'Microeconomics Midterm',
+    subject: 'Economics',
+    level: 'S2',
+    type: 'exam',
+    fileUri: 'https://example.com/econ-midterm.pdf',
+    fileName: 'econ-midterm.pdf',
+    fileType: 'application/pdf',
+    uploadDate: '2024-02-20',
+    description: 'Midterm examination with answer key',
+  },
+  {
+    id: '7',
+    title: 'Machine Learning Fundamentals',
+    subject: 'Computer Science',
+    level: 'S6',
+    type: 'course',
+    fileUri: 'https://example.com/ml-fundamentals.pdf',
+    fileName: 'ml-fundamentals.pdf',
+    fileType: 'application/pdf',
+    uploadDate: '2024-03-01',
+    description: 'Introduction to machine learning concepts and algorithms',
+  },
+  {
+    id: '8',
+    title: 'Calculus II Practice Problems',
+    subject: 'Mathematics',
+    level: 'S1',
+    type: 'practical',
+    fileUri: 'https://example.com/calculus-practice.pdf',
+    fileName: 'calculus-practice.pdf',
+    fileType: 'application/pdf',
+    uploadDate: '2024-03-05',
+    description: 'Integration and series exercises with detailed solutions',
+  },
+];
+
+export const subjects = [
+  'Computer Science',
+  'Mathematics',
+  'Physics',
+  'Chemistry',
+  'Economics',
+  'Biology',
+  'Engineering',
+  'Business',
+];
+
+export const levels: Array<'S1' | 'S2' | 'S3' | 'S4' | 'S5' | 'S6' | 'S7' | 'S8' | 'S9'> = [
+  'S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9'
+];
+
+export const documentTypes: Array<{ value: 'course' | 'practical' | 'exam'; label: string }> = [
+  { value: 'course', label: 'Course Notes' },
+  { value: 'practical', label: 'Practicals' },
+  { value: 'exam', label: 'Exams' },
+];

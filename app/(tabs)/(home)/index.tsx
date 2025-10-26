@@ -1,79 +1,114 @@
-import React from "react";
-import { Stack, Link } from "expo-router";
-import { FlatList, Pressable, StyleSheet, View, Text, Alert, Platform } from "react-native";
+
+import React, { useState } from "react";
+import { Stack, Link, useRouter } from "expo-router";
+import { 
+  ScrollView, 
+  Pressable, 
+  StyleSheet, 
+  View, 
+  Text, 
+  TextInput,
+  Platform 
+} from "react-native";
 import { IconSymbol } from "@/components/IconSymbol";
 import { GlassView } from "expo-glass-effect";
 import { useTheme } from "@react-navigation/native";
-
-const ICON_COLOR = "#007AFF";
+import { useDocuments } from "@/hooks/useDocuments";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Document } from "@/types/Document";
 
 export default function HomeScreen() {
   const theme = useTheme();
-  const modalDemos = [
-    {
-      title: "Standard Modal",
-      description: "Full screen modal presentation",
-      route: "/modal",
-      color: "#007AFF",
-    },
-    {
-      title: "Form Sheet",
-      description: "Bottom sheet with detents and grabber",
-      route: "/formsheet",
-      color: "#34C759",
-    },
-    {
-      title: "Transparent Modal",
-      description: "Overlay without obscuring background",
-      route: "/transparent-modal",
-      color: "#FF9500",
-    }
-  ];
+  const router = useRouter();
+  const { documents, filter, updateFilter } = useDocuments();
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const renderModalDemo = ({ item }: { item: (typeof modalDemos)[0] }) => (
-    <GlassView style={[
-      styles.demoCard,
-      Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
-    ]} glassEffectStyle="regular">
-      <View style={[styles.demoIcon, { backgroundColor: item.color }]}>
-        <IconSymbol name="square.grid.3x3" color="white" size={24} />
-      </View>
-      <View style={styles.demoContent}>
-        <Text style={[styles.demoTitle, { color: theme.colors.text }]}>{item.title}</Text>
-        <Text style={[styles.demoDescription, { color: theme.dark ? '#98989D' : '#666' }]}>{item.description}</Text>
-      </View>
-      <Link href={item.route as any} asChild>
-        <Pressable>
-          <GlassView style={[
-            styles.tryButton,
-            Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)' }
-          ]} glassEffectStyle="clear">
-            <Text style={[styles.tryButtonText, { color: theme.colors.primary }]}>Try It</Text>
-          </GlassView>
-        </Pressable>
-      </Link>
-    </GlassView>
-  );
+  const handleSearch = (text: string) => {
+    setSearchQuery(text);
+    updateFilter({ searchQuery: text });
+  };
+
+  const getDocumentTypeIcon = (type: string) => {
+    switch (type) {
+      case 'course':
+        return 'book.fill';
+      case 'practical':
+        return 'hammer.fill';
+      case 'exam':
+        return 'doc.text.fill';
+      default:
+        return 'doc.fill';
+    }
+  };
+
+  const getDocumentTypeColor = (type: string) => {
+    switch (type) {
+      case 'course':
+        return '#007AFF';
+      case 'practical':
+        return '#34C759';
+      case 'exam':
+        return '#FF9500';
+      default:
+        return '#8E8E93';
+    }
+  };
 
   const renderHeaderRight = () => (
     <Pressable
-      onPress={() => Alert.alert("Not Implemented", "This feature is not implemented yet")}
+      onPress={() => router.push('/admin')}
       style={styles.headerButtonContainer}
     >
-      <IconSymbol name="plus" color={theme.colors.primary} />
+      <IconSymbol name="lock.fill" color={theme.colors.primary} />
     </Pressable>
   );
 
   const renderHeaderLeft = () => (
     <Pressable
-      onPress={() => Alert.alert("Not Implemented", "This feature is not implemented yet")}
+      onPress={() => router.push('/filters')}
       style={styles.headerButtonContainer}
     >
       <IconSymbol
-        name="gear"
+        name="line.3.horizontal.decrease.circle.fill"
         color={theme.colors.primary}
       />
     </Pressable>
+  );
+
+  const renderDocument = (doc: Document) => (
+    <Link key={doc.id} href={`/document/${doc.id}`} asChild>
+      <Pressable>
+        <GlassView 
+          style={[
+            styles.documentCard,
+            Platform.OS !== 'ios' && { 
+              backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' 
+            }
+          ]} 
+          glassEffectStyle="regular"
+        >
+          <View style={[styles.documentIcon, { backgroundColor: getDocumentTypeColor(doc.type) }]}>
+            <IconSymbol name={getDocumentTypeIcon(doc.type)} color="white" size={24} />
+          </View>
+          <View style={styles.documentContent}>
+            <Text style={[styles.documentTitle, { color: theme.colors.text }]} numberOfLines={1}>
+              {doc.title}
+            </Text>
+            <Text style={[styles.documentSubject, { color: theme.dark ? '#98989D' : '#666' }]}>
+              {doc.subject} • {doc.level}
+            </Text>
+            <View style={styles.documentMeta}>
+              <View style={[styles.badge, { backgroundColor: getDocumentTypeColor(doc.type) + '20' }]}>
+                <Text style={[styles.badgeText, { color: getDocumentTypeColor(doc.type) }]}>
+                  {doc.type === 'course' ? 'Course' : doc.type === 'practical' ? 'Practical' : 'Exam'}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <IconSymbol name="chevron.right" color={theme.dark ? '#98989D' : '#666'} size={20} />
+        </GlassView>
+      </Pressable>
+    </Link>
   );
 
   return (
@@ -81,25 +116,80 @@ export default function HomeScreen() {
       {Platform.OS === 'ios' && (
         <Stack.Screen
           options={{
-            title: "Building the app...",
+            title: "SUP CASA",
             headerRight: renderHeaderRight,
             headerLeft: renderHeaderLeft,
           }}
         />
       )}
-      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-        <FlatList
-          data={modalDemos}
-          renderItem={renderModalDemo}
-          keyExtractor={(item) => item.route}
+      <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]} edges={['top']}>
+        <View style={styles.header}>
+          <Text style={[styles.welcomeText, { color: theme.colors.text }]}>
+            Welcome to SUP CASA
+          </Text>
+          <Text style={[styles.subtitleText, { color: theme.dark ? '#98989D' : '#666' }]}>
+            Your academic resource hub
+          </Text>
+        </View>
+
+        <View style={styles.searchContainer}>
+          <GlassView 
+            style={[
+              styles.searchBar,
+              Platform.OS !== 'ios' && { 
+                backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' 
+              }
+            ]} 
+            glassEffectStyle="regular"
+          >
+            <IconSymbol name="magnifyingglass" color={theme.dark ? '#98989D' : '#666'} size={20} />
+            <TextInput
+              style={[styles.searchInput, { color: theme.colors.text }]}
+              placeholder="Search documents..."
+              placeholderTextColor={theme.dark ? '#98989D' : '#666'}
+              value={searchQuery}
+              onChangeText={handleSearch}
+            />
+            {searchQuery.length > 0 && (
+              <Pressable onPress={() => handleSearch('')}>
+                <IconSymbol name="xmark.circle.fill" color={theme.dark ? '#98989D' : '#666'} size={20} />
+              </Pressable>
+            )}
+          </GlassView>
+        </View>
+
+        <ScrollView
+          style={styles.scrollView}
           contentContainerStyle={[
             styles.listContainer,
             Platform.OS !== 'ios' && styles.listContainerWithTabBar
           ]}
-          contentInsetAdjustmentBehavior="automatic"
           showsVerticalScrollIndicator={false}
-        />
-      </View>
+        >
+          <View style={styles.sectionHeader}>
+            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
+              {filter.level || filter.subject || filter.type ? 'Filtered Results' : 'All Documents'}
+            </Text>
+            <Text style={[styles.resultCount, { color: theme.dark ? '#98989D' : '#666' }]}>
+              {documents.length} {documents.length === 1 ? 'document' : 'documents'}
+            </Text>
+          </View>
+
+          {documents.length === 0 ? (
+            <View style={styles.emptyState}>
+              <IconSymbol name="doc.text.magnifyingglass" color={theme.dark ? '#98989D' : '#666'} size={64} />
+              <Text style={[styles.emptyStateText, { color: theme.dark ? '#98989D' : '#666' }]}>
+                No documents found
+              </Text>
+              <Text style={[styles.emptyStateSubtext, { color: theme.dark ? '#98989D' : '#666' }]}>
+                Try adjusting your filters or search query
+              </Text>
+            </View>
+          ) : (
+            documents.map(renderDocument)
+          )}
+        </ScrollView>
+      </SafeAreaView>
     </>
   );
 }
@@ -107,23 +197,69 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor handled dynamically
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 12,
+  },
+  welcomeText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  subtitleText: {
+    fontSize: 16,
+  },
+  searchContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 16,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 12,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    padding: 0,
+  },
+  scrollView: {
+    flex: 1,
   },
   listContainer: {
-    paddingVertical: 16,
     paddingHorizontal: 16,
+    paddingBottom: 16,
   },
   listContainerWithTabBar: {
-    paddingBottom: 100, // Extra padding for floating tab bar
+    paddingBottom: 100,
   },
-  demoCard: {
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+    paddingHorizontal: 4,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  resultCount: {
+    fontSize: 14,
+  },
+  documentCard: {
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  demoIcon: {
+  documentIcon: {
     width: 48,
     height: 48,
     borderRadius: 24,
@@ -131,31 +267,47 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 16,
   },
-  demoContent: {
+  documentContent: {
     flex: 1,
   },
-  demoTitle: {
-    fontSize: 18,
+  documentTitle: {
+    fontSize: 16,
     fontWeight: '600',
     marginBottom: 4,
-    // color handled dynamically
   },
-  demoDescription: {
+  documentSubject: {
     fontSize: 14,
-    lineHeight: 18,
-    // color handled dynamically
+    marginBottom: 6,
+  },
+  documentMeta: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  badge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  badgeText: {
+    fontSize: 12,
+    fontWeight: '600',
   },
   headerButtonContainer: {
     padding: 6,
   },
-  tryButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
+  emptyState: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 60,
   },
-  tryButtonText: {
-    fontSize: 14,
+  emptyStateText: {
+    fontSize: 18,
     fontWeight: '600',
-    // color handled dynamically
+    marginTop: 16,
+  },
+  emptyStateSubtext: {
+    fontSize: 14,
+    marginTop: 8,
+    textAlign: 'center',
   },
 });
