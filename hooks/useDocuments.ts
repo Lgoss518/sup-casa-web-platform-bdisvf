@@ -40,7 +40,24 @@ export function useDocuments() {
   };
 
   const addDocument = (document: Document) => {
+    console.log('Adding document:', document);
     setDocuments(prev => [document, ...prev]);
+  };
+
+  const updateDocument = (id: string, updates: Partial<Document>) => {
+    console.log('Updating document:', id, updates);
+    setDocuments(prev => 
+      prev.map(doc => doc.id === id ? { ...doc, ...updates } : doc)
+    );
+  };
+
+  const deleteDocument = (id: string) => {
+    console.log('Deleting document:', id);
+    setDocuments(prev => prev.filter(doc => doc.id !== id));
+  };
+
+  const getDocumentById = (id: string): Document | undefined => {
+    return documents.find(doc => doc.id === id);
   };
 
   const updateFilter = (newFilter: Partial<DocumentFilter>) => {
@@ -58,5 +75,8 @@ export function useDocuments() {
     updateFilter,
     clearFilters,
     addDocument,
+    updateDocument,
+    deleteDocument,
+    getDocumentById,
   };
 }
