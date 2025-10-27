@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { GlassView } from 'expo-glass-effect';
 import { IconSymbol } from '@/components/IconSymbol';
 import { useTheme } from '@react-navigation/native';
-import { levels, subjects, documentTypes } from '@/data/mockDocuments';
+import { levels, documentTypes } from '@/data/mockDocuments';
 import { AcademicLevel, DocumentType, Document } from '@/types/Document';
 import { useDocuments } from '@/hooks/useDocuments';
 import * as DocumentPicker from 'expo-document-picker';
@@ -49,7 +49,7 @@ export default function AdminScreen() {
       setIsAuthenticated(true);
       setPassword('');
     } else {
-      Alert.alert('Error', 'Incorrect password. Please try again.');
+      Alert.alert('Erreur', 'Mot de passe incorrect. Veuillez réessayer.');
     }
   };
 
@@ -62,11 +62,11 @@ export default function AdminScreen() {
 
       if (!result.canceled && result.assets && result.assets.length > 0) {
         setSelectedFile(result.assets[0]);
-        console.log('Selected file:', result.assets[0]);
+        console.log('Fichier sélectionné:', result.assets[0]);
       }
     } catch (error) {
-      console.error('Error picking document:', error);
-      Alert.alert('Error', 'Failed to pick document. Please try again.');
+      console.error('Erreur lors de la sélection du document:', error);
+      Alert.alert('Erreur', 'Échec de la sélection du document. Veuillez réessayer.');
     }
   };
 
@@ -84,17 +84,17 @@ export default function AdminScreen() {
 
   const handleUpload = () => {
     if (!formData.title || !formData.subject || !formData.level || !formData.type) {
-      Alert.alert('Error', 'Please fill in all required fields');
+      Alert.alert('Erreur', 'Veuillez remplir tous les champs obligatoires');
       return;
     }
 
     if (!selectedFile && !editingDocument) {
-      Alert.alert('Error', 'Please select a file to upload');
+      Alert.alert('Erreur', 'Veuillez sélectionner un fichier à télécharger');
       return;
     }
 
     if (editingDocument) {
-      // Update existing document
+      // Mettre à jour le document existant
       updateDocument(editingDocument.id, {
         title: formData.title,
         subject: formData.subject,
@@ -109,8 +109,8 @@ export default function AdminScreen() {
       });
 
       Alert.alert(
-        'Success',
-        'Document updated successfully!',
+        'Succès',
+        'Document mis à jour avec succès !',
         [
           {
             text: 'OK',
@@ -122,7 +122,7 @@ export default function AdminScreen() {
         ]
       );
     } else {
-      // Add new document
+      // Ajouter un nouveau document
       const newDocument: Document = {
         id: Date.now().toString(),
         title: formData.title,
@@ -139,15 +139,15 @@ export default function AdminScreen() {
       addDocument(newDocument);
 
       Alert.alert(
-        'Success',
-        'Document uploaded successfully!',
+        'Succès',
+        'Document téléchargé avec succès !',
         [
           {
-            text: 'Upload Another',
+            text: 'Télécharger un autre',
             onPress: resetForm,
           },
           {
-            text: 'View Documents',
+            text: 'Voir les documents',
             onPress: () => {
               resetForm();
               setCurrentView('manage');
@@ -172,19 +172,19 @@ export default function AdminScreen() {
 
   const handleDelete = (doc: Document) => {
     Alert.alert(
-      'Delete Document',
-      `Are you sure you want to delete "${doc.title}"? This action cannot be undone.`,
+      'Supprimer le document',
+      `Êtes-vous sûr de vouloir supprimer "${doc.title}" ? Cette action ne peut pas être annulée.`,
       [
         {
-          text: 'Cancel',
+          text: 'Annuler',
           style: 'cancel',
         },
         {
-          text: 'Delete',
+          text: 'Supprimer',
           style: 'destructive',
           onPress: () => {
             deleteDocument(doc.id);
-            Alert.alert('Success', 'Document deleted successfully');
+            Alert.alert('Succès', 'Document supprimé avec succès');
           },
         },
       ]
@@ -224,7 +224,7 @@ export default function AdminScreen() {
           <Pressable onPress={() => router.back()} style={styles.backButton}>
             <IconSymbol name="chevron.left" color={theme.colors.primary} size={24} />
           </Pressable>
-          <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Admin Login</Text>
+          <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Connexion Admin</Text>
           <View style={{ width: 40 }} />
         </View>
 
@@ -244,9 +244,9 @@ export default function AdminScreen() {
               </View>
             </View>
 
-            <Text style={[styles.loginTitle, { color: theme.colors.text }]}>Admin Access</Text>
+            <Text style={[styles.loginTitle, { color: theme.colors.text }]}>Accès Admin</Text>
             <Text style={[styles.loginSubtitle, { color: theme.dark ? '#98989D' : '#666' }]}>
-              Enter password to continue
+              Entrez le mot de passe pour continuer
             </Text>
 
             <View style={styles.passwordContainer}>
@@ -262,7 +262,7 @@ export default function AdminScreen() {
                 <IconSymbol name="key.fill" color={theme.dark ? '#98989D' : '#666'} size={20} />
                 <TextInput
                   style={[styles.input, { color: theme.colors.text }]}
-                  placeholder="Password"
+                  placeholder="Mot de passe"
                   placeholderTextColor={theme.dark ? '#98989D' : '#666'}
                   value={password}
                   onChangeText={setPassword}
@@ -290,12 +290,12 @@ export default function AdminScreen() {
                 ]}
                 glassEffectStyle="prominent"
               >
-                <Text style={[styles.loginButtonText, { color: theme.colors.primary }]}>Login</Text>
+                <Text style={[styles.loginButtonText, { color: theme.colors.primary }]}>Se connecter</Text>
               </GlassView>
             </Pressable>
 
             <Text style={[styles.hint, { color: theme.dark ? '#98989D' : '#666' }]}>
-              Demo password: supcasa2024
+              Mot de passe démo : supcasa2024
             </Text>
           </GlassView>
         </View>
@@ -310,7 +310,7 @@ export default function AdminScreen() {
           <IconSymbol name="chevron.left" color={theme.colors.primary} size={24} />
         </Pressable>
         <Text style={[styles.headerTitle, { color: theme.colors.text }]}>
-          {currentView === 'upload' ? (editingDocument ? 'Edit Document' : 'Upload Document') : 'Manage Documents'}
+          {currentView === 'upload' ? (editingDocument ? 'Modifier le document' : 'Télécharger un document') : 'Gérer les documents'}
         </Text>
         <Pressable onPress={() => setIsAuthenticated(false)} style={styles.logoutButton}>
           <IconSymbol name="rectangle.portrait.and.arrow.right" color="#FF3B30" size={22} />
@@ -353,7 +353,7 @@ export default function AdminScreen() {
                 { color: currentView === 'upload' ? theme.colors.primary : theme.colors.text },
               ]}
             >
-              Upload
+              Télécharger
             </Text>
           </GlassView>
         </Pressable>
@@ -385,7 +385,7 @@ export default function AdminScreen() {
                 { color: currentView === 'manage' ? theme.colors.primary : theme.colors.text },
               ]}
             >
-              Manage ({allDocuments.length})
+              Gérer ({allDocuments.length})
             </Text>
           </GlassView>
         </Pressable>
@@ -403,11 +403,11 @@ export default function AdminScreen() {
             glassEffectStyle="regular"
           >
             <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
-              {editingDocument ? 'Edit Document Information' : 'Document Information'}
+              {editingDocument ? 'Modifier les informations du document' : 'Informations du document'}
             </Text>
 
             <View style={styles.formGroup}>
-              <Text style={[styles.label, { color: theme.colors.text }]}>Title *</Text>
+              <Text style={[styles.label, { color: theme.colors.text }]}>Titre *</Text>
               <GlassView
                 style={[
                   styles.inputContainer,
@@ -419,7 +419,7 @@ export default function AdminScreen() {
               >
                 <TextInput
                   style={[styles.textInput, { color: theme.colors.text }]}
-                  placeholder="Enter document title"
+                  placeholder="Entrez le titre du document"
                   placeholderTextColor={theme.dark ? '#98989D' : '#666'}
                   value={formData.title}
                   onChangeText={(text) => setFormData({ ...formData, title: text })}
@@ -428,46 +428,28 @@ export default function AdminScreen() {
             </View>
 
             <View style={styles.formGroup}>
-              <Text style={[styles.label, { color: theme.colors.text }]}>Subject *</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipScroll}>
-                <View style={styles.chipContainer}>
-                  {subjects.map((subject) => (
-                    <Pressable key={subject} onPress={() => setFormData({ ...formData, subject })}>
-                      <GlassView
-                        style={[
-                          styles.chip,
-                          formData.subject === subject && styles.chipActive,
-                          Platform.OS !== 'ios' && {
-                            backgroundColor:
-                              formData.subject === subject
-                                ? theme.colors.primary + '40'
-                                : theme.dark
-                                ? 'rgba(255,255,255,0.05)'
-                                : 'rgba(0,0,0,0.03)',
-                          },
-                        ]}
-                        glassEffectStyle={formData.subject === subject ? 'prominent' : 'clear'}
-                      >
-                        <Text
-                          style={[
-                            styles.chipText,
-                            {
-                              color:
-                                formData.subject === subject ? theme.colors.primary : theme.colors.text,
-                            },
-                          ]}
-                        >
-                          {subject}
-                        </Text>
-                      </GlassView>
-                    </Pressable>
-                  ))}
-                </View>
-              </ScrollView>
+              <Text style={[styles.label, { color: theme.colors.text }]}>Module *</Text>
+              <GlassView
+                style={[
+                  styles.inputContainer,
+                  Platform.OS !== 'ios' && {
+                    backgroundColor: theme.dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                  },
+                ]}
+                glassEffectStyle="clear"
+              >
+                <TextInput
+                  style={[styles.textInput, { color: theme.colors.text }]}
+                  placeholder="Entrez le nom du module"
+                  placeholderTextColor={theme.dark ? '#98989D' : '#666'}
+                  value={formData.subject}
+                  onChangeText={(text) => setFormData({ ...formData, subject: text })}
+                />
+              </GlassView>
             </View>
 
             <View style={styles.formGroup}>
-              <Text style={[styles.label, { color: theme.colors.text }]}>Academic Level *</Text>
+              <Text style={[styles.label, { color: theme.colors.text }]}>Niveau académique *</Text>
               <View style={styles.levelGrid}>
                 {levels.map((level) => (
                   <Pressable key={level} onPress={() => setFormData({ ...formData, level })}>
@@ -503,7 +485,7 @@ export default function AdminScreen() {
             </View>
 
             <View style={styles.formGroup}>
-              <Text style={[styles.label, { color: theme.colors.text }]}>Document Type *</Text>
+              <Text style={[styles.label, { color: theme.colors.text }]}>Type de document *</Text>
               <View style={styles.typeContainer}>
                 {documentTypes.map((docType) => (
                   <Pressable
@@ -535,7 +517,7 @@ export default function AdminScreen() {
                           },
                         ]}
                       >
-                        {docType.label}
+                        {docType.value === 'course' ? 'Cours' : docType.value === 'practical' ? 'TP' : 'Examen'}
                       </Text>
                     </GlassView>
                   </Pressable>
@@ -557,7 +539,7 @@ export default function AdminScreen() {
               >
                 <TextInput
                   style={[styles.textInput, styles.textArea, { color: theme.colors.text }]}
-                  placeholder="Enter document description (optional)"
+                  placeholder="Entrez la description du document (optionnel)"
                   placeholderTextColor={theme.dark ? '#98989D' : '#666'}
                   value={formData.description}
                   onChangeText={(text) => setFormData({ ...formData, description: text })}
@@ -580,10 +562,10 @@ export default function AdminScreen() {
               >
                 <IconSymbol name="doc.badge.plus" color={theme.colors.primary} size={24} />
                 <Text style={[styles.filePickerText, { color: theme.colors.text }]}>
-                  {selectedFile ? selectedFile.name : editingDocument ? 'Change File (Optional)' : 'Select File *'}
+                  {selectedFile ? selectedFile.name : editingDocument ? 'Changer le fichier (Optionnel)' : 'Sélectionner un fichier *'}
                 </Text>
                 <Text style={[styles.filePickerSubtext, { color: theme.dark ? '#98989D' : '#666' }]}>
-                  {selectedFile ? `${(selectedFile.size! / 1024).toFixed(2)} KB` : 'PDF, Word, Images supported'}
+                  {selectedFile ? `${(selectedFile.size! / 1024).toFixed(2)} KB` : 'PDF, Word, Images supportés'}
                 </Text>
               </GlassView>
             </Pressable>
@@ -599,7 +581,7 @@ export default function AdminScreen() {
                   ]}
                   glassEffectStyle="clear"
                 >
-                  <Text style={[styles.cancelButtonText, { color: theme.colors.text }]}>Cancel Edit</Text>
+                  <Text style={[styles.cancelButtonText, { color: theme.colors.text }]}>Annuler la modification</Text>
                 </GlassView>
               </Pressable>
             )}
@@ -620,7 +602,7 @@ export default function AdminScreen() {
                   size={24}
                 />
                 <Text style={[styles.uploadButtonText, { color: theme.colors.primary }]}>
-                  {editingDocument ? 'Update Document' : 'Upload Document'}
+                  {editingDocument ? 'Mettre à jour le document' : 'Télécharger le document'}
                 </Text>
               </GlassView>
             </Pressable>
@@ -639,9 +621,9 @@ export default function AdminScreen() {
               glassEffectStyle="regular"
             >
               <IconSymbol name="doc.text" color={theme.dark ? '#98989D' : '#666'} size={64} />
-              <Text style={[styles.emptyStateTitle, { color: theme.colors.text }]}>No Documents</Text>
+              <Text style={[styles.emptyStateTitle, { color: theme.colors.text }]}>Aucun document</Text>
               <Text style={[styles.emptyStateText, { color: theme.dark ? '#98989D' : '#666' }]}>
-                Upload your first document to get started
+                Téléchargez votre premier document pour commencer
               </Text>
             </GlassView>
           ) : (
@@ -678,7 +660,7 @@ export default function AdminScreen() {
 
                 <View style={styles.documentFooter}>
                   <Text style={[styles.documentDate, { color: theme.dark ? '#98989D' : '#666' }]}>
-                    Uploaded: {doc.uploadDate}
+                    Téléchargé : {doc.uploadDate}
                   </Text>
                   <View style={styles.documentActions}>
                     <Pressable onPress={() => handleEdit(doc)} style={styles.actionButton}>
@@ -845,9 +827,6 @@ const styles = StyleSheet.create({
   },
   textArea: {
     minHeight: 100,
-  },
-  chipScroll: {
-    marginHorizontal: -4,
   },
   chipContainer: {
     flexDirection: 'row',

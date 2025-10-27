@@ -95,7 +95,7 @@ export default function HomeScreen() {
             <View style={styles.documentMeta}>
               <View style={[styles.badge, { backgroundColor: getDocumentTypeColor(doc.type) + '20' }]}>
                 <Text style={[styles.badgeText, { color: getDocumentTypeColor(doc.type) }]}>
-                  {doc.type === 'course' ? 'Course' : doc.type === 'practical' ? 'Practical' : 'Exam'}
+                  {doc.type === 'course' ? 'Cours' : doc.type === 'practical' ? 'TP' : 'Examen'}
                 </Text>
               </View>
             </View>
@@ -120,10 +120,10 @@ export default function HomeScreen() {
       <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]} edges={['top']}>
         <View style={styles.header}>
           <Text style={[styles.welcomeText, { color: theme.colors.text }]}>
-            Welcome to SUP CASA
+            Bienvenue sur SUP CASA
           </Text>
           <Text style={[styles.subtitleText, { color: theme.dark ? '#98989D' : '#666' }]}>
-            Your academic resource hub
+            Votre plateforme de ressources académiques
           </Text>
         </View>
 
@@ -140,7 +140,7 @@ export default function HomeScreen() {
             <IconSymbol name="magnifyingglass" color={theme.dark ? '#98989D' : '#666'} size={20} />
             <TextInput
               style={[styles.searchInput, { color: theme.colors.text }]}
-              placeholder="Search documents..."
+              placeholder="Rechercher des documents..."
               placeholderTextColor={theme.dark ? '#98989D' : '#666'}
               value={searchQuery}
               onChangeText={handleSearch}
@@ -165,23 +165,7 @@ export default function HomeScreen() {
               glassEffectStyle="regular"
             >
               <IconSymbol name="line.3.horizontal.decrease.circle.fill" color={theme.colors.primary} size={24} />
-              <Text style={[styles.actionButtonText, { color: theme.colors.text }]}>Filters</Text>
-            </GlassView>
-          </Pressable>
-
-          <Pressable onPress={() => router.push('/admin')} style={{ flex: 1 }}>
-            <GlassView 
-              style={[
-                styles.actionButton,
-                styles.adminButton,
-                Platform.OS !== 'ios' && { 
-                  backgroundColor: theme.dark ? 'rgba(255,100,100,0.2)' : 'rgba(255,59,48,0.1)' 
-                }
-              ]} 
-              glassEffectStyle="prominent"
-            >
-              <IconSymbol name="lock.shield.fill" color="#FF3B30" size={24} />
-              <Text style={[styles.actionButtonText, styles.adminButtonText]}>Admin</Text>
+              <Text style={[styles.actionButtonText, { color: theme.colors.text }]}>Filtres</Text>
             </GlassView>
           </Pressable>
         </View>
@@ -196,7 +180,7 @@ export default function HomeScreen() {
         >
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
-              {filter.level || filter.subject || filter.type ? 'Filtered Results' : 'All Documents'}
+              {filter.level || filter.subject || filter.type ? 'Résultats filtrés' : 'Tous les documents'}
             </Text>
             <Text style={[styles.resultCount, { color: theme.dark ? '#98989D' : '#666' }]}>
               {documents.length} {documents.length === 1 ? 'document' : 'documents'}
@@ -207,10 +191,10 @@ export default function HomeScreen() {
             <View style={styles.emptyState}>
               <IconSymbol name="doc.text.magnifyingglass" color={theme.dark ? '#98989D' : '#666'} size={64} />
               <Text style={[styles.emptyStateText, { color: theme.dark ? '#98989D' : '#666' }]}>
-                No documents found
+                Aucun document trouvé
               </Text>
               <Text style={[styles.emptyStateSubtext, { color: theme.dark ? '#98989D' : '#666' }]}>
-                Try adjusting your filters or search query
+                Essayez d&apos;ajuster vos filtres ou votre recherche
               </Text>
             </View>
           ) : (
@@ -271,16 +255,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 12,
   },
-  adminButton: {
-    borderWidth: 2,
-    borderColor: 'rgba(255, 59, 48, 0.3)',
-  },
   actionButtonText: {
     fontSize: 15,
     fontWeight: '600',
-  },
-  adminButtonText: {
-    color: '#FF3B30',
   },
   scrollView: {
     flex: 1,

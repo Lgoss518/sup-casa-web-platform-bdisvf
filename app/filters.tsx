@@ -38,13 +38,13 @@ export default function FiltersScreen() {
         <Pressable onPress={() => router.back()} style={styles.backButton}>
           <IconSymbol name="chevron.left" color={theme.colors.primary} size={24} />
         </Pressable>
-        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Filters</Text>
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Filtres</Text>
         {hasActiveFilters && (
           <Pressable onPress={handleClearAll}>
-            <Text style={[styles.clearButton, { color: theme.colors.primary }]}>Clear All</Text>
+            <Text style={[styles.clearButton, { color: theme.colors.primary }]}>Tout effacer</Text>
           </Pressable>
         )}
-        {!hasActiveFilters && <View style={{ width: 60 }} />}
+        {!hasActiveFilters && <View style={{ width: 80 }} />}
       </View>
 
       <ScrollView 
@@ -53,7 +53,7 @@ export default function FiltersScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Academic Level</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Niveau académique</Text>
           <View style={styles.filterGrid}>
             {levels.map((level) => (
               <Pressable
@@ -87,7 +87,7 @@ export default function FiltersScreen() {
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Subject</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Module</Text>
           <View style={styles.filterList}>
             {subjects.map((subject) => (
               <Pressable
@@ -124,7 +124,7 @@ export default function FiltersScreen() {
         </View>
 
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Document Type</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Type de document</Text>
           <View style={styles.filterList}>
             {documentTypes.map((docType) => (
               <Pressable
@@ -149,7 +149,7 @@ export default function FiltersScreen() {
                       { color: filter.type === docType.value ? theme.colors.primary : theme.colors.text }
                     ]}
                   >
-                    {docType.label}
+                    {docType.value === 'course' ? 'Cours' : docType.value === 'practical' ? 'TP' : 'Examen'}
                   </Text>
                   {filter.type === docType.value && (
                     <IconSymbol name="checkmark.circle.fill" color={theme.colors.primary} size={20} />

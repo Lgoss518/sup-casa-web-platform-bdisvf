@@ -20,9 +20,9 @@ export default function DocumentDetailScreen() {
       <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
         <View style={styles.errorContainer}>
           <IconSymbol name="exclamationmark.triangle" color={theme.dark ? '#98989D' : '#666'} size={64} />
-          <Text style={[styles.errorText, { color: theme.colors.text }]}>Document not found</Text>
+          <Text style={[styles.errorText, { color: theme.colors.text }]}>Document non trouvé</Text>
           <Pressable onPress={() => router.back()}>
-            <Text style={[styles.backLink, { color: theme.colors.primary }]}>Go Back</Text>
+            <Text style={[styles.backLink, { color: theme.colors.primary }]}>Retour</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -57,16 +57,16 @@ export default function DocumentDetailScreen() {
 
   const handleDownload = () => {
     Alert.alert(
-      'Download',
-      `This would download: ${document.fileName}\n\nIn a production app, this would open the document or download it to your device.`,
+      'Télécharger',
+      `Ceci téléchargerait : ${document.fileName}\n\nDans une application de production, cela ouvrirait le document ou le téléchargerait sur votre appareil.`,
       [{ text: 'OK' }]
     );
   };
 
   const handleShare = () => {
     Alert.alert(
-      'Share',
-      `Share ${document.title} with others`,
+      'Partager',
+      `Partager ${document.title} avec d'autres`,
       [{ text: 'OK' }]
     );
   };
@@ -78,7 +78,7 @@ export default function DocumentDetailScreen() {
           <IconSymbol name="chevron.left" color={theme.colors.primary} size={24} />
         </Pressable>
         <Text style={[styles.headerTitle, { color: theme.colors.text }]} numberOfLines={1}>
-          Document Details
+          Détails du document
         </Text>
         <Pressable onPress={handleShare} style={styles.shareButton}>
           <IconSymbol name="square.and.arrow.up" color={theme.colors.primary} size={22} />
@@ -109,7 +109,7 @@ export default function DocumentDetailScreen() {
         <View style={styles.badges}>
           <View style={[styles.badge, { backgroundColor: getDocumentTypeColor(document.type) + '20' }]}>
             <Text style={[styles.badgeText, { color: getDocumentTypeColor(document.type) }]}>
-              {document.type === 'course' ? 'Course' : document.type === 'practical' ? 'Practical' : 'Exam'}
+              {document.type === 'course' ? 'Cours' : document.type === 'practical' ? 'TP' : 'Examen'}
             </Text>
           </View>
           <View style={[styles.badge, { backgroundColor: theme.colors.primary + '20' }]}>
@@ -131,7 +131,7 @@ export default function DocumentDetailScreen() {
           <View style={styles.infoRow}>
             <IconSymbol name="book.closed.fill" color={theme.dark ? '#98989D' : '#666'} size={20} />
             <View style={styles.infoContent}>
-              <Text style={[styles.infoLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Subject</Text>
+              <Text style={[styles.infoLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Module</Text>
               <Text style={[styles.infoValue, { color: theme.colors.text }]}>{document.subject}</Text>
             </View>
           </View>
@@ -141,9 +141,9 @@ export default function DocumentDetailScreen() {
           <View style={styles.infoRow}>
             <IconSymbol name="calendar" color={theme.dark ? '#98989D' : '#666'} size={20} />
             <View style={styles.infoContent}>
-              <Text style={[styles.infoLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Upload Date</Text>
+              <Text style={[styles.infoLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Date de téléchargement</Text>
               <Text style={[styles.infoValue, { color: theme.colors.text }]}>
-                {new Date(document.uploadDate).toLocaleDateString('en-US', {
+                {new Date(document.uploadDate).toLocaleDateString('fr-FR', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -157,7 +157,7 @@ export default function DocumentDetailScreen() {
           <View style={styles.infoRow}>
             <IconSymbol name="doc.fill" color={theme.dark ? '#98989D' : '#666'} size={20} />
             <View style={styles.infoContent}>
-              <Text style={[styles.infoLabel, { color: theme.dark ? '#98989D' : '#666' }]}>File Name</Text>
+              <Text style={[styles.infoLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Nom du fichier</Text>
               <Text style={[styles.infoValue, { color: theme.colors.text }]} numberOfLines={1}>
                 {document.fileName}
               </Text>
@@ -194,7 +194,7 @@ export default function DocumentDetailScreen() {
           >
             <IconSymbol name="arrow.down.circle.fill" color={theme.colors.primary} size={24} />
             <Text style={[styles.downloadButtonText, { color: theme.colors.primary }]}>
-              View Document
+              Voir le document
             </Text>
           </GlassView>
         </Pressable>

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Platform, Pressable } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSymbol } from "@/components/IconSymbol";
 import { GlassView } from "expo-glass-effect";
@@ -23,20 +23,20 @@ export default function ProfileScreen() {
           Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
         ]} glassEffectStyle="regular">
           <IconSymbol name="person.circle.fill" size={80} color={theme.colors.primary} />
-          <Text style={[styles.name, { color: theme.colors.text }]}>Student</Text>
-          <Text style={[styles.email, { color: theme.dark ? '#98989D' : '#666' }]}>student@supcasa.ma</Text>
+          <Text style={[styles.name, { color: theme.colors.text }]}>Étudiant</Text>
+          <Text style={[styles.email, { color: theme.dark ? '#98989D' : '#666' }]}>etudiant@supcasa.ma</Text>
         </GlassView>
 
         <GlassView style={[
           styles.section,
           Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
         ]} glassEffectStyle="regular">
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>About SUP CASA</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>À propos de SUP CASA</Text>
           <Text style={[styles.aboutText, { color: theme.dark ? '#98989D' : '#666' }]}>
-            SUP CASA is your centralized platform for academic resources in Casablanca&apos;s higher education community.
+            SUP CASA est votre plateforme centralisée pour les ressources académiques de la communauté de l&apos;enseignement supérieur de Casablanca.
           </Text>
           <Text style={[styles.aboutText, { color: theme.dark ? '#98989D' : '#666' }]}>
-            Access lessons, tutorials, exam papers, and corrected exercises all in one place.
+            Accédez aux cours, tutoriels, sujets d&apos;examens et exercices corrigés en un seul endroit.
           </Text>
         </GlassView>
 
@@ -44,7 +44,7 @@ export default function ProfileScreen() {
           styles.section,
           Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
         ]} glassEffectStyle="regular">
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Quick Stats</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Statistiques rapides</Text>
           
           <View style={styles.statRow}>
             <View style={styles.statItem}>
@@ -56,13 +56,13 @@ export default function ProfileScreen() {
             <View style={styles.statItem}>
               <IconSymbol name="book.fill" size={24} color="#34C759" />
               <Text style={[styles.statNumber, { color: theme.colors.text }]}>5</Text>
-              <Text style={[styles.statLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Subjects</Text>
+              <Text style={[styles.statLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Modules</Text>
             </View>
             
             <View style={styles.statItem}>
               <IconSymbol name="graduationcap.fill" size={24} color="#FF9500" />
               <Text style={[styles.statNumber, { color: theme.colors.text }]}>9</Text>
-              <Text style={[styles.statLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Levels</Text>
+              <Text style={[styles.statLabel, { color: theme.dark ? '#98989D' : '#666' }]}>Niveaux</Text>
             </View>
           </View>
         </GlassView>
@@ -75,25 +75,25 @@ export default function ProfileScreen() {
           <View style={styles.missionItem}>
             <IconSymbol name="checkmark.circle.fill" size={20} color="#34C759" />
             <Text style={[styles.missionText, { color: theme.dark ? '#98989D' : '#666' }]}>
-              Eliminate scattered study materials
+              Éliminer les supports d&apos;étude dispersés
             </Text>
           </View>
           <View style={styles.missionItem}>
             <IconSymbol name="checkmark.circle.fill" size={20} color="#34C759" />
             <Text style={[styles.missionText, { color: theme.dark ? '#98989D' : '#666' }]}>
-              Centralize academic resources
+              Centraliser les ressources académiques
             </Text>
           </View>
           <View style={styles.missionItem}>
             <IconSymbol name="checkmark.circle.fill" size={20} color="#34C759" />
             <Text style={[styles.missionText, { color: theme.dark ? '#98989D' : '#666' }]}>
-              Foster collaboration and sharing
+              Favoriser la collaboration et le partage
             </Text>
           </View>
           <View style={styles.missionItem}>
             <IconSymbol name="checkmark.circle.fill" size={20} color="#34C759" />
             <Text style={[styles.missionText, { color: theme.dark ? '#98989D' : '#666' }]}>
-              Promote digital literacy
+              Promouvoir la culture numérique
             </Text>
           </View>
         </GlassView>
@@ -103,7 +103,7 @@ export default function ProfileScreen() {
             SUP CASA v1.0
           </Text>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
-            Empowering students to study smarter, together
+            Permettre aux étudiants d&apos;étudier plus intelligemment, ensemble
           </Text>
         </View>
       </ScrollView>
