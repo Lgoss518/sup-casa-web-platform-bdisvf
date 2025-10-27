@@ -56,15 +56,6 @@ export default function HomeScreen() {
 
   const renderHeaderRight = () => (
     <Pressable
-      onPress={() => router.push('/admin')}
-      style={styles.headerButtonContainer}
-    >
-      <IconSymbol name="lock.fill" color={theme.colors.primary} />
-    </Pressable>
-  );
-
-  const renderHeaderLeft = () => (
-    <Pressable
       onPress={() => router.push('/filters')}
       style={styles.headerButtonContainer}
     >
@@ -73,6 +64,10 @@ export default function HomeScreen() {
         color={theme.colors.primary}
       />
     </Pressable>
+  );
+
+  const renderHeaderLeft = () => (
+    <View style={{ width: 40 }} />
   );
 
   const renderDocument = (doc: Document) => (
@@ -158,6 +153,39 @@ export default function HomeScreen() {
           </GlassView>
         </View>
 
+        <View style={styles.actionButtonsContainer}>
+          <Pressable onPress={() => router.push('/filters')} style={{ flex: 1 }}>
+            <GlassView 
+              style={[
+                styles.actionButton,
+                Platform.OS !== 'ios' && { 
+                  backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' 
+                }
+              ]} 
+              glassEffectStyle="regular"
+            >
+              <IconSymbol name="line.3.horizontal.decrease.circle.fill" color={theme.colors.primary} size={24} />
+              <Text style={[styles.actionButtonText, { color: theme.colors.text }]}>Filters</Text>
+            </GlassView>
+          </Pressable>
+
+          <Pressable onPress={() => router.push('/admin')} style={{ flex: 1 }}>
+            <GlassView 
+              style={[
+                styles.actionButton,
+                styles.adminButton,
+                Platform.OS !== 'ios' && { 
+                  backgroundColor: theme.dark ? 'rgba(255,100,100,0.2)' : 'rgba(255,59,48,0.1)' 
+                }
+              ]} 
+              glassEffectStyle="prominent"
+            >
+              <IconSymbol name="lock.shield.fill" color="#FF3B30" size={24} />
+              <Text style={[styles.actionButtonText, styles.adminButtonText]}>Admin</Text>
+            </GlassView>
+          </Pressable>
+        </View>
+
         <ScrollView
           style={styles.scrollView}
           contentContainerStyle={[
@@ -213,7 +241,7 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 16,
+    paddingBottom: 12,
   },
   searchBar: {
     flexDirection: 'row',
@@ -227,6 +255,32 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     padding: 0,
+  },
+  actionButtonsContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingBottom: 16,
+    gap: 12,
+  },
+  actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+  },
+  adminButton: {
+    borderWidth: 2,
+    borderColor: 'rgba(255, 59, 48, 0.3)',
+  },
+  actionButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  adminButtonText: {
+    color: '#FF3B30',
   },
   scrollView: {
     flex: 1,
